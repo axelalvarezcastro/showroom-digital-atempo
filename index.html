@@ -429,7 +429,7 @@
             <div class="lv">${Object.keys(u.estados).map(n => `<i class="s-${u.estados[n]}" title="Nivel ${n} · ${ESTADO[u.estados[n]]}">${n}</i>`).join("")}</div>
             <div class="lg"><span class="s-d">Disponible</span><span class="s-a">Apartado</span><span class="s-v">Vendido</span></div></div>` : ""}
           <ul>${u.bullets.map(b => `<li>${b}</li>`).join("")}</ul>
-          <div class="spaces"><small>Entra a cada ambiente</small>${u.espacios.map((e, k) => `<button data-room="${k}">${e.nombre}</button>`).join("")}</div>
+          <div class="spaces"><small>Ingresa a cada ambiente</small>${u.espacios.map((e, k) => `<button data-room="${k}">${e.nombre}</button>`).join("")}</div>
           <div class="price">${u.precio}<span>Entrega ${u.entrega}</span></div>
           <div class="actions"><a class="btn" href="${P.cta.url}">${P.cta.texto}</a>
           <a class="btn wa-mini" href="#" data-wa data-msg="Hola, me interesa la ${u.nombre} (${nivelTxt(u).toLowerCase()}) de ${P.nombre}." aria-label="Escribir por WhatsApp" title="WhatsApp">${WA}</a>
