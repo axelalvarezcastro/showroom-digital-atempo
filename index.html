@@ -6,6 +6,9 @@
 <title>Sitio Interactivo Preventa</title>
 <meta name="description" content="Prototipo de sitio scroll-interactivo para torre en preventa. Edita config.js.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- La torre del hero se pide de entrada (antes que GSAP y el config): es lo primero que se ve.
+     Mismo archivo que torre.imagen en config.js. -->
+<link rel="preload" as="image" href="assets/atempo/torre-v3.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -382,7 +385,7 @@
         return `<button class="rng" data-fly="${u.id}" style="top:calc(${top}% - 3px);height:calc(${h}% + 7px)" aria-label="${u.nombre}"><span>${u.nivelEtiqueta}${u.total ? ` · ${u.quedan} disp.` : ""}</span></button>`; }).join("")}
       <b class="cur"></b></div></div>`;
   const hero = el(`<section class="hero" id="hero">
-    <img src="${T.imagen}" alt="${P.nombre}">
+    <img src="${T.imagen}" alt="${P.nombre}" fetchpriority="high">
     <div class="hov"><div class="tip"><b></b><span></span></div></div>
     ${pickHTML()}${rulerHTML()}
   </section>`);
@@ -412,10 +415,10 @@
     const p = pinFor(u);
     const unit = el(`<section class="unit" id="${u.id}">
       <div class="stage">
-        <div class="layer tower"><img src="${S.torre.imagenZoom || S.torre.imagen}" alt=""><div class="band"></div></div>
+        <div class="layer tower"><img src="${S.torre.imagenZoom || S.torre.imagen}" alt="" fetchpriority="low"><div class="band"></div></div>
         <div class="shade"></div>
         ${u.transicionVideo ? `<div class="layer vid"><video src="${u.transicionVideo}" muted playsinline preload="auto"></video></div>` : ""}
-        <div class="layer floor"><div class="tilt"><div class="plan"><img src="${u.planta}" alt="Planta ${u.nombre}">
+        <div class="layer floor"><div class="tilt"><div class="plan"><img src="${u.planta}" alt="Planta ${u.nombre}" fetchpriority="low">
           <div class="hots">${u.espacios.map((e, k) => e.punto ? `<button class="hot" data-room="${k}" style="left:${e.punto.x}%;top:${e.punto.y}%"><i></i><span>${e.nombre}</span></button>` : "").join("")}</div>
         </div></div></div>
         <aside class="panel">
