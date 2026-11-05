@@ -1,0 +1,8 @@
+# Insumos crudos y originales de Higgsfield (pesados: ~190 MB). Viven en la carpeta, no en git.
+insumos/
+# Asset sin uso desde la v1 (la maqueta del sitio es planta-a.webp)
+assets/atempo/planta-a.jpg
+.DS_Store
+Thumbs.db
+# Torre v2, reemplazada por torre-v3 (las fuentes quedan en insumos/)
+assets/atempo/torre-aislada*.jpg
