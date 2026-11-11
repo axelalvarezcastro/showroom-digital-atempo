@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Inteligencia Comercial v2 · Atempo San Ángel (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#090909; --bg2:#0f1b33; --panel:#12161f; --panel2:#181e2b; --ink:#f5f1e8; --muted:#a9a498;
+  --gold:#C59B3F; --gold2:#e2c276; --line:rgba(197,155,63,.28); --line2:rgba(255,255,255,.08);
+  --ok:#5fbf8f; --warn:#e2a23b; --bad:#e0645c; --blue:#6f95d8;
+}
+*{box-sizing:border-box;margin:0}
+body{background:radial-gradient(1200px 500px at 70% -10%,#16264a 0,transparent 60%),var(--bg);color:var(--ink);font-family:Poppins,system-ui,sans-serif;font-weight:300;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 64px}
+header{padding:28px 0 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2)}
+h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.1}
+.badge{border:1px solid var(--warn);color:var(--warn);font-size:.72rem;padding:4px 10px;border-radius:999px;letter-spacing:.06em}
+.sub{color:var(--muted);font-size:.85rem;margin-top:4px}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0}
+nav.tabs button{background:transparent;color:var(--muted);border:1px solid var(--line2);border-radius:999px;padding:7px 16px;font:inherit;font-size:.82rem;cursor:pointer}
+nav.tabs button[aria-selected=true]{color:#111;background:var(--gold2);border-color:var(--gold2);font-weight:500}
+section.view{display:none}section.view.on{display:block}
+h2{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:1.5rem;margin:28px 0 10px}
+h3{font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:16px}
+.kpi .v{font-family:"Cormorant Garamond",serif;font-size:2.3rem;font-weight:600;line-height:1.1}
+.kpi .l{font-size:.75rem;color:var(--muted)}
+.kpi .d{font-size:.75rem;margin-top:4px}
+.up{color:var(--ok)}.down{color:var(--bad)}.flat{color:var(--muted)}
+.two{grid-template-columns:1.3fr 1fr}
+@media(max-width:820px){.two{grid-template-columns:1fr}}
+.funnel .row{display:grid;grid-template-columns:130px 1fr 90px;gap:10px;align-items:center;margin:8px 0;font-size:.85rem}
+.funnel .bar{height:26px;background:var(--panel2);border-radius:6px;overflow:hidden}
+.funnel .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:6px}
+.funnel .row.cons .bar i{background:linear-gradient(90deg,#b8453e,var(--bad))}
+.funnel .drop{font-size:.72rem;color:var(--muted);text-align:right}
+.funnel .row.cons .drop{color:var(--bad)}
+.tag{display:inline-block;font-size:.68rem;padding:2px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);margin-right:4px}
+.tag.hi{border-color:var(--bad);color:var(--bad)}.tag.mid{border-color:var(--warn);color:var(--warn)}.tag.ok{border-color:var(--ok);color:var(--ok)}
+.finding{border-left:3px solid var(--gold);padding:10px 14px;background:var(--panel2);border-radius:0 8px 8px 0;margin-bottom:10px}
+.finding b{font-weight:500}
+.finding .ev{font-size:.72rem;color:var(--muted);margin-top:6px;font-family:ui-monospace,Consolas,monospace}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th,td{padding:8px 6px;text-align:left;border-bottom:1px solid var(--line2)}
+th{font-weight:500;color:var(--gold2);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.sev{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.note{font-size:.75rem;color:var(--muted);margin-top:10px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp .big{font-family:"Cormorant Garamond",serif;font-size:3rem;font-weight:600;line-height:1}
+.meter{height:10px;background:var(--panel2);border-radius:6px;overflow:hidden;margin-top:8px}
+.meter i{display:block;height:100%}
+svg text{fill:var(--muted);font-family:Poppins,sans-serif;font-size:11px}
+.legend{display:flex;gap:14px;font-size:.75rem;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+select{background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:8px;padding:6px 10px;font:inherit;font-size:.82rem}
+footer{margin-top:40px;font-size:.72rem;color:var(--muted);border-top:1px solid var(--line2);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <div class="eyebrow">Trichter · Revenue Intelligence</div>
+    <h1>Tablero de Inteligencia Comercial v2</h1>
+    <div class="sub">Atempo San Ángel · semana del 14 de septiembre de 2026 · zona horaria America/Mexico_City</div>
+  </div>
+  <div style="text-align:right"><span class="badge">VERSIÓN DEMO · datos ilustrativos</span>
+    <div class="sub">Corte: <select id="semana"></select></div></div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-v="resumen">Resumen</button>
+  <button role="tab" aria-selected="false" data-v="embudo">Embudo y constraint</button>
+  <button role="tab" aria-selected="false" data-v="conv">Conversaciones IA</button>
+  <button role="tab" aria-selected="false" data-v="exp">Experimentos</button>
+  <button role="tab" aria-selected="false" data-v="calidad">Calidad de datos</button>
+</nav>
+
+<!-- RESUMEN -->
+<section class="view on" id="v-resumen">
+  <div class="grid kpis" id="kpis"></div>
+  <div class="grid two" style="margin-top:14px">
+    <div class="card"><h3>Tendencia semanal</h3><div id="trend"></div>
+      <div class="legend"><span><i style="background:var(--gold2)"></i>Leads</span><span><i style="background:var(--blue)"></i>Citas agendadas</span><span><i style="background:var(--ok)"></i>Citas asistidas</span></div></div>
+    <div class="card"><h3>Lectura de la semana</h3>
+      <div class="finding"><b>Constraint:</b> leads → cita agendada. Es la mayor caída absoluta del embudo con muestra suficiente.</div>
+      <div class="finding"><b>Show-rate 40 %:</b> 6 de cada 10 citas con desenlace son no-show. Es el segundo punto de fuga.</div>
+      <div class="finding"><b>Hueco de medición:</b> casi ninguna cita pasada tiene outcome post-cita cargado.</div>
+      <p class="note">Todos los números los calcula SQL/código determinístico sobre <code>funnel_events</code>. La IA solo explica patrones cualitativos con evidencia por <code>message_id</code>.</p></div>
+  </div>
+</section>
+
+<!-- EMBUDO -->
+<section class="view" id="v-embudo">
+  <div class="grid two">
+    <div class="card funnel"><h3>Embudo de la semana</h3><div id="funnel"></div>
+      <p class="note">En rojo, el constraint detectado: la mayor caída absoluta con muestra suficiente. El detector nunca asigna responsable; eso es un paso posterior con la matriz de atribución.</p></div>
+    <div class="card"><h3>Matriz de atribución responsable</h3>
+      <table><thead><tr><th>Etapa</th><th>Área probable</th><th>Confianza</th></tr></thead><tbody>
+      <tr><td>Lead → cita</td><td>Agente IA / workflow + calidad de lead</td><td><span class="tag mid">media</span></td></tr>
+      <tr><td>Cita → asistencia</td><td>Recordatorios / confirmación</td><td><span class="tag mid">media</span></td></tr>
+      <tr><td>Asistencia → apartado</td><td>Ventas (sin outcome medido)</td><td><span class="tag hi">no concluyente</span></td></tr>
+      </tbody></table>
+      <p class="note">Nunca se atribuye culpa por descarte: sin dato suficiente la celda queda “no concluyente”.</p></div>
+  </div>
+  <h2>Cohortes maduras</h2>
+  <div class="card"><table><thead><tr><th>Cohorte de creación</th><th>Leads</th><th>Citas</th><th>% cita</th><th>Asistidas</th><th>Apartados</th><th>Madura</th></tr></thead><tbody id="cohortes"></tbody></table>
+    <p class="note">Una cohorte se considera madura cuando pasaron los días suficientes para observar su desenlace final; las inmaduras no se comparan.</p></div>
+</section>
+
+<!-- CONVERSACIONES -->
+<section class="view" id="v-conv">
+  <div class="grid kpis">
+    <div class="card kpi"><div class="l">Conversaciones ingeridas</div><div class="v">95</div></div>
+    <div class="card kpi"><div class="l">Analizadas con evidencia</div><div class="v">85</div><div class="d flat">89.5 % · meta ≥ 95 %</div></div>
+    <div class="card kpi"><div class="l">Costo medio por análisis</div><div class="v">~43 s</div><div class="d flat">latencia por conversación</div></div>
+  </div>
+  <h2>Intención del lead: quién avanza y quién se traba</h2>
+  <div class="card cmp">
+    <div><div class="l">Avanzaron a reserva (n = 10)</div><div class="big" style="color:var(--ok)">100 %</div><div class="sub">intención alta desde el primer mensaje · 10/10</div><div class="meter"><i style="width:100%;background:var(--ok)"></i></div></div>
+    <div><div class="l">Se trabaron (n = 69)</div><div class="big" style="color:var(--bad)">1.4 %</div><div class="sub">intención alta · 1/69</div><div class="meter"><i style="width:1.4%;background:var(--bad)"></i></div></div>
+  </div>
+  <p class="note">Delta de 98.6 puntos. Confianza media: ninguna cohorte llega a N = 30. La fricción para agendar aparece por igual en ambos grupos, así que no es ahí donde se separan.</p>
+
+  <h2>Cuellos de botella con evidencia</h2>
+  <div class="finding"><b>El bot repite la misma CTA sin variar cuando el lead no responde</b> <span class="tag mid">workflow</span><span class="tag">señal a validar</span>
+    <div class="ev">evidencia: msg_a41f · msg_a42c · msg_a437 (misma invitación al showroom ×3)</div></div>
+  <div class="finding"><b>El bot confirmó una fecha distinta a la elegida por el lead</b> <span class="tag hi">bug · 1 caso</span>
+    <div class="ev">evidencia: msg_c902 (lead elige opción C) → msg_c905 (bot confirma opción B) → msg_c908 (lead corrige)</div></div>
+  <div class="finding"><b>Recalificación a otro proyecto, recordatorio sigue con el original</b> <span class="tag hi">bug · 1 caso</span>
+    <div class="ev">evidencia: msg_e118 (recalifica) vs msg_e131 (recordatorio automático)</div></div>
+  <p class="note">Los identificadores de mensaje de esta demo son ilustrativos. En producción cada hallazgo exige <code>message_id</code> real; si no hay evidencia, el análisis se marca “no concluyente” y no se publica.</p>
+</section>
+
+<!-- EXPERIMENTOS -->
+<section class="view" id="v-exp">
+  <h2>Registro de experimentos</h2>
+  <div class="card"><table><thead><tr><th>#</th><th>Hipótesis</th><th>Métrica</th><th>Estado</th></tr></thead><tbody>
+    <tr><td>E0</td><td>Registrar outcome post-cita en todas las citas pasadas</td><td>% citas con outcome</td><td><span class="tag mid">en curso</span></td></tr>
+    <tr><td>E1</td><td>Seguimiento automático a las 24–48 h cuando el lead no responde, variando el enfoque</td><td>% lead → cita</td><td><span class="tag">propuesto</span></td></tr>
+    <tr><td>E2</td><td>Validar la fecha elegida con una confirmación explícita antes de agendar</td><td>citas con fecha corregida</td><td><span class="tag">propuesto</span></td></tr>
+    <tr><td>E3</td><td>Recordatorio con el nombre del proyecto vigente del lead</td><td>show-rate</td><td><span class="tag">propuesto</span></td></tr>
+  </tbody></table>
+  <p class="note">Cada experimento queda versionado con <code>agent_version</code>/<code>prompt_version</code> para medir el efecto contra la línea base.</p></div>
+</section>
+
+<!-- CALIDAD -->
+<section class="view" id="v-calidad">
+  <h2>Salud de los datos</h2>
+  <div class="grid kpis" id="dq"></div>
+  <div class="card" style="margin-top:14px"><h3>Pendientes que condicionan las conclusiones</h3>
+    <div class="finding"><b>Outcome post-cita sin cargar</b><div class="ev">Sin él no se puede atribuir la caída asistencia → apartado.</div></div>
+    <div class="finding"><b>Cohortes sin N = 30</b><div class="ev">Los hallazgos conversacionales son señales dentro de la muestra, no conclusiones del proyecto completo.</div></div>
+    <div class="finding"><b>Etiquetado por stage actual</b><div class="ev">Falta conectarlo con la secuencia histórica de eventos de <code>funnel_events</code>.</div></div>
+  </div>
+</section>
+
+<footer>Demo con datos ilustrativos construida sobre la estructura del proyecto piloto Atempo San Ángel. Cifras y nombres no corresponden a leads reales; no hay datos personales en esta página.</footer>
+</div>
+
+<script>
+// ── Datos DEMO ─────────────────────────────────────────────
+const semanas=["2026-08-24","2026-08-31","2026-09-07","2026-09-14"];
+const hist={ // leads, agendadas, asistidas, apartados, firmas
+ "2026-08-24":{l:231,a:44,as:11,ap:1,f:0, noshow:19},
+ "2026-08-31":{l:249,a:51,as:13,ap:2,f:0, noshow:20},
+ "2026-09-07":{l:259,a:49,as:12,ap:1,f:1, noshow:21},
+ "2026-09-14":{l:268,a:57,as:14,ap:2,f:1, noshow:21}
+};
+const serie=[ // 8 semanas para la tendencia
+ [198,38,10],[212,41,9],[221,40,11],[231,44,11],[249,51,13],[259,49,12],[268,57,14],[262,54,13]
+].slice(0,7);
+const $=s=>document.querySelector(s), fmt=n=>n.toLocaleString("es-MX");
+const pct=(a,b)=>b?Math.round(a/b*1000)/10:0;
+
+function delta(c,p,inv){const d=c-p;if(!d)return`<span class="flat">= sin cambio</span>`;
+  const good=inv?d<0:d>0;return`<span class="${good?'up':'down'}">${d>0?'▲':'▼'} ${Math.abs(d)} vs semana previa</span>`}
+
+function render(){
+  const k=$("#semana").value,h=hist[k],i=semanas.indexOf(k),p=hist[semanas[Math.max(0,i-1)]];
+  const conDes=h.as+h.noshow, show=pct(h.as,conDes);
+  $("#kpis").innerHTML=[
+   ["Leads nuevos",fmt(h.l),delta(h.l,p.l)],
+   ["Citas agendadas",h.a,`${pct(h.a,h.l)} % de los leads · ${delta(h.a,p.a)}`],
+   ["Citas asistidas",h.as,delta(h.as,p.as)],
+   ["Show-rate",show+" %",`asistidas ÷ (asistidas + no asistidas = ${conDes})`],
+   ["Apartados",h.ap,delta(h.ap,p.ap)],
+   ["Firmas",h.f,delta(h.f,p.f)]
+  ].map(x=>`<div class="card kpi"><div class="l">${x[0]}</div><div class="v">${x[1]}</div><div class="d flat">${x[2]}</div></div>`).join("");
+
+  // embudo
+  const st=[["Leads",h.l],["Citas agendadas",h.a],["Con desenlace",conDes],["Asistidas",h.as],["Apartados",h.ap],["Firmas",h.f]];
+  let maxDrop=-1,mi=1;st.forEach((s,j)=>{if(j&&st[j-1][1]-s[1]>maxDrop&&st[j-1][1]>=30){maxDrop=st[j-1][1]-s[1];mi=j}});
+  $("#funnel").innerHTML=st.map((s,j)=>`<div class="row ${j===mi?'cons':''}"><span>${s[0]}</span><div class="bar"><i style="width:${Math.max(1.5,s[1]/h.l*100)}%"></i></div><span class="drop"><b style="color:var(--ink)">${s[1]}</b>${j?`<br>−${st[j-1][1]-s[1]}`:''}</span></div>`).join("");
+
+  // cohortes demo
+  const rows=[["Jul 27 – Ago 2",218,39,14,2,1],["Ago 3 – 9",224,42,15,2,1],["Ago 10 – 16",236,45,16,1,0],["Ago 17 – 23",241,47,0,0,0],["Ago 24 – 30",231,44,0,0,0]];
+  $("#cohortes").innerHTML=rows.map(r=>{const m=r[3]>0;return`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${pct(r[2],r[1])} %</td><td>${m?r[3]:"—"}</td><td>${m?r[4]:"—"}</td><td><span class="tag ${m?'ok':''}">${m?'sí':'en maduración'}</span></td></tr>`}).join("");
+
+  $("#dq").innerHTML=[
+   ["Eventos reconciliados con CRM","98.6 %","5,004 de 5,074 leads · 69 con drift esperado"],
+   ["Citas con outcome post-cita","≈ 0 %","gap principal de medición"],
+   ["Stages legacy sin mapear","5","eventos guardados sin inventar el mapeo"],
+   ["Zona horaria canónica","México","por proyecto, no hardcodeada"]
+  ].map(x=>`<div class="card kpi"><div class="l">${x[0]}</div><div class="v" style="font-size:1.9rem">${x[1]}</div><div class="d flat">${x[2]}</div></div>`).join("");
+}
+
+function trend(){
+  const W=560,H=220,m={l:30,r:10,t:10,b:24},iw=W-m.l-m.r,ih=H-m.t-m.b,mx=300;
+  const X=i=>m.l+i*iw/(serie.length-1),Y=v=>m.t+ih-v/mx*ih;
+  const line=(idx,c)=>`<polyline fill="none" stroke="${c}" stroke-width="2" points="${serie.map((s,i)=>X(i)+','+Y(s[idx])).join(' ')}"/>`+serie.map((s,i)=>`<circle cx="${X(i)}" cy="${Y(s[idx])}" r="3" fill="${c}"/>`).join("");
+  let g="";[0,100,200,300].forEach(v=>g+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.07)"/><text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end">${v}</text>`);
+  const lab=["27 jul","3 ago","10 ago","17 ago","24 ago","31 ago","7 sep"];
+  lab.forEach((t,i)=>g+=`<text x="${X(i)}" y="${H-6}" text-anchor="middle">${t}</text>`);
+  $("#trend").innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Tendencia semanal de leads, citas agendadas y asistidas">${g}${line(0,"#e2c276")}${line(1,"#6f95d8")}${line(2,"#5fbf8f")}</svg>`;
+}
+
+$("#semana").innerHTML=semanas.map(s=>`<option value="${s}">${s}</option>`).join("");
+$("#semana").value=semanas[semanas.length-1];
+$("#semana").onchange=render;
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll("section.view").forEach(s=>s.classList.toggle("on",s.id==="v-"+b.dataset.v));
+});
+render();trend();
+</script>
+</body>
+</html>
