@@ -1,15 +1,17 @@
 // ─────────────────────────────────────────────────────────────
-// CONFIG DEL SITIO — Atempo San Ángel (Urbano Park). Prueba interna, no publicar.
-// Fuentes: Brochure Atempo San Ángel.pdf (ClickUp) y Drive "ATEMPO - Creativos".
-// DEMO: precios inventados (de referencia), baños leídos de las plantas oficiales y entregas
-// tomadas de los plazos de escrituración del brochure. Un null sigue mostrando "Consultar".
+// CONFIG DEL SITIO — Demo reutilizable de showroom digital para torre en preventa.
+// Proyecto ficticio: nombre, ubicación, precios, entregas y disponibilidad son de ejemplo.
+// Para un proyecto real se cambia este archivo y las imágenes de assets/demo/.
+// Un null en recámaras/baños/m² muestra "Consultar".
 // ─────────────────────────────────────────────────────────────
 window.SITE = {
   proyecto: {
-    nombre: "Atempo San Ángel",
-    ubicacion: "San Ángel, Ciudad de México",
-    tagline: "Residential & Amenities · más de 15 amenidades",
-    // TODO: URL del calendario de Atempo (pedir a Jesús Leal).
+    nombre: "Torre Aurora",
+    ubicacion: "Ciudad de México",
+    // Logo del proyecto (PNG/WebP/SVG claro sobre fondo oscuro). null = el nombre en texto.
+    logo: null,
+    tagline: "Residencias y amenidades",
+    // URL del calendario de citas del proyecto (Calendly, etc.).
     cta: { texto: "Agenda tu visita", url: "#agenda" },
     nav: [
       { texto: "Residencias", href: "#residencia-2r-91" },
@@ -20,7 +22,7 @@ window.SITE = {
     amenidadesTexto: "Diseñadas para tu estilo de vida.",
     cierre: {
       titulo: "Conoce tu residencia en persona.",
-      texto: "Visita el showroom en Av. Revolución 1215, Col. Los Alpes, Álvaro Obregón."
+      texto: "Visita nuestro showroom y recorre tu futura residencia con un asesor."
     },
     disclaimer: "Imágenes ilustrativas generadas con IA a partir del proyecto arquitectónico. Precios de referencia para esta demo. Acabados, vistas y medidas pueden variar."
   },
@@ -30,13 +32,13 @@ window.SITE = {
   demo: { semillaDisponibilidad: 11, deptosPorNivel: 6 },
 
   torre: {
-    // v3: torre aislada sobre plaza, 4K nativo (Higgsfield nano_banana_2_1 con 1126_Cam_01_HQ.tif de referencia). Solo demo.
-    imagen: "assets/atempo/torre-v3.jpg",           // 2752 px, hero
-    imagenZoom: "assets/atempo/torre-v3-zoom.jpg",  // la misma imagen a 5504 px (resolución original), solo para el zoom
+    // Render de la torre aislada sobre plaza, 4K nativo. Solo demo.
+    imagen: "assets/demo/torre-v3.jpg",           // 2752 px, hero
+    imagenZoom: "assets/demo/torre-v3-zoom.jpg",  // la misma imagen a 5504 px (resolución original), solo para el zoom
     // Losas del nivel 31 y del nivel 1 en torre-v3 (% desde arriba).
     pisoSuperior: 14,
     pisoInferior: 90.5,
-    niveles: 31,                               // brochure: fases pisos 1–10, 11–20, 21–31
+    niveles: 31,                               // total de niveles de la torre
     ancho: [35.4, 69.8],                       // borde izq. de la torre clara → borde der. de la oscura (% del ancho)
     cielo: "#344a70", suelo: "#302420"         // colores del borde superior/inferior del render (relleno en celular)
   },
@@ -45,83 +47,83 @@ window.SITE = {
     {
       id: "residencia-2r-91",
       nombre: "Residencia 2 recámaras",
-      nivel: 11,                    // posición del pin; la tipología va de B 405 a B 1105 (Drive)
+      nivel: 11,                    // posición del pin
       nivelEtiqueta: "4–11",
       niveles: [4, 11],             // rango que se resalta en la regla y al pasar el mouse por la torre
-      pin: { x: 50, y: 65 },        // nivel 11 (estimado); ajustar cuando se confirme cuál volumen es la torre B
+      pin: { x: 50, y: 65 },        // nivel 11 sobre el render
       recamaras: 2,
-      banos: 2.5,                   // planta oficial: 2 completos + 1 medio
-      m2: 91,                       // + 9 m² de balcón (brochure; el Drive dice 10)
+      banos: 2.5,                   // 2 completos + 1 medio
+      m2: 91,                       // + 9 m² de balcón
       precio: "Desde $8,950,000 MXN",   // inventado para la demo (~$98 mil/m²)
-      entrega: "desde agosto 2028",     // brochure: fase 1 (pisos 1–10) escritura desde ago 2028
+      entrega: "desde agosto 2028",     // de ejemplo
       bullets: ["Balcón de 9 m²", "Enganche 15 % diferido", "Más de 15 amenidades", "Seguridad 24/7 y acceso controlado"],
-      planta: "assets/atempo/planta-a.webp",      // Higgsfield (nano_banana_2_1), maqueta v6 estilo reel, fondo recortado
+      planta: "assets/demo/planta-a.webp",      // maqueta 3D isométrica con fondo recortado
       transicionVideo: null,
       // punto: posición del hotspot sobre la maqueta (% de planta-a.webp).
       espacios: [
-        { nombre: "Sala y cocina",      imagen: "assets/atempo/interior-a-01.jpg", punto: { x: 62, y: 56 },
+        { nombre: "Sala y cocina",      imagen: "assets/demo/interior-a-01.jpg", punto: { x: 62, y: 56 },
           texto: "Sala, comedor y cocina abierta con barra, frente al balcón de 9 m²." },
-        { nombre: "Recámara principal", imagen: "assets/atempo/interior-a-02.jpg", punto: { x: 20, y: 55 },
+        { nombre: "Recámara principal", imagen: "assets/demo/interior-a-02.jpg", punto: { x: 20, y: 55 },
           texto: "Recámara con clóset de muro a muro y salida al balcón." },
-        { nombre: "Baño principal",     imagen: "assets/atempo/interior-a-03.jpg", punto: { x: 45, y: 25 },
+        { nombre: "Baño principal",     imagen: "assets/demo/interior-a-03.jpg", punto: { x: 45, y: 25 },
           texto: "Baño completo con regadera de cancel de vidrio." }
       ]
     },
     {
       id: "residencia-3r-186",
       nombre: "Residencia 3 recámaras",
-      nivel: 28,                    // Drive: "187+9-City · B 2801 y B 2901"
+      nivel: 28,                    // posición del pin
       nivelEtiqueta: "28–29",
       niveles: [28, 29],
       pin: { x: 50, y: 21.7 },
       recamaras: 3,
       banos: 3.5,                   // planta: 3 completos + 1 medio, más el baño de servicio (ver bullets)
-      m2: 186,                      // + 9 m² de balcón (brochure; el Drive dice 187)
+      m2: 186,                      // + 9 m² de balcón
       precio: "Desde $19,850,000 MXN",  // inventado para la demo (~$107 mil/m², niveles altos)
-      entrega: "desde febrero 2029",    // brochure: fase 3 (pisos 21–31) escritura desde feb 2029
+      entrega: "desde febrero 2029",    // de ejemplo
       bullets: ["Cuarto y baño de servicio + estudio", "Balcón de 9 m²", "Niveles altos con vista", "Más de 15 amenidades"],
-      planta: "assets/atempo/planta-b.webp",
+      planta: "assets/demo/planta-b.webp",
       transicionVideo: null,
       espacios: [
-        { nombre: "Sala y comedor",     imagen: "assets/atempo/interior-b-01.jpg", punto: { x: 38, y: 31 },
+        { nombre: "Sala y comedor",     imagen: "assets/demo/interior-b-01.jpg", punto: { x: 38, y: 31 },
           texto: "Estancia y comedor para ocho, abiertos a la terraza." },
-        { nombre: "Cocina con isla",    imagen: "assets/atempo/interior-b-02.jpg", punto: { x: 15, y: 33 },
+        { nombre: "Cocina con isla",    imagen: "assets/demo/interior-b-02.jpg", punto: { x: 15, y: 33 },
           texto: "Cocina con isla central y muro de guardado en madera." },
-        { nombre: "Recámara principal", imagen: "assets/atempo/interior-b-03.jpg", punto: { x: 84, y: 31 },
+        { nombre: "Recámara principal", imagen: "assets/demo/interior-b-03.jpg", punto: { x: 84, y: 31 },
           texto: "Suite principal con vestidor y baño propio." }
       ]
     }
   ],
 
-  // Amenidades del brochure. Los NIVELES son inventados para la demo (no están confirmados).
+  // Amenidades de ejemplo (nombres, niveles y descripciones inventados para la demo).
   // video: clip de Higgsfield; sin video se muestra el render con movimiento de cámara.
   amenidades: [
     {
       nombre: "Terraza con asadores", nivel: "Roof · Nivel 31", nivelCorto: "Roof", pin: { x: 38, y: 13.5 },
       descripcion: "Asadores, comedor al aire libre y pérgola para reunirte con tu gente al atardecer.",
-      video: "assets/atempo/amenidades/terraza.mp4", poster: "assets/atempo/amenidades/terraza.jpg"
+      video: "assets/demo/amenidades/terraza.mp4", poster: "assets/demo/amenidades/terraza.jpg"
     },
     {
       nombre: "Salón de eventos", nivel: "Nivel 20", nivelCorto: "N20", pin: { x: 38, y: 42 },
       descripcion: "Salón con terraza para celebraciones, con cocina y bar.",
-      imagen: "assets/atempo/amenidades/salon.jpg"
+      imagen: "assets/demo/amenidades/salon.jpg"
     },
     {
       nombre: "Spa", nivel: "Nivel 12", nivelCorto: "N12", pin: { x: 38, y: 62.5 },
       descripcion: "Spa para mujeres y caballeros con sauna seco y cabinas de masaje.",
-      imagen: "assets/atempo/amenidades/spa.jpg"
+      imagen: "assets/demo/amenidades/spa.jpg"
     },
     {
       nombre: "Alberca y carril de nado", nivel: "Nivel 3 · Amenidades", nivelCorto: "N3", pin: { x: 62, y: 85.4 }, lado: "der",   // a la derecha: a la izquierda choca con el titular
       descripcion: "Alberca recreativa, carril de nado y jacuzzi rodeados de jardín.",
-      // Render generado con IA (no hay render del desarrollador); video Kling 3.0 a partir de ese render.
-      video: "assets/atempo/amenidades/alberca.mp4", poster: "assets/atempo/amenidades/alberca.jpg", ia: true
+      // Render generado con IA; video Kling 3.0 a partir de ese render.
+      video: "assets/demo/amenidades/alberca.mp4", poster: "assets/demo/amenidades/alberca.jpg", ia: true
     },
     {
       nombre: "Gimnasio", nivel: "Nivel 6", nivelCorto: "N6", pin: { x: 62, y: 77.75 }, lado: "der",
       descripcion: "Gimnasio de cardio y peso libre con vista al jardín.",
-      // Render IA con los materiales del spa y el salón del desarrollador; video Kling 3.0.
-      video: "assets/atempo/amenidades/gym.mp4", poster: "assets/atempo/amenidades/gym.jpg", ia: true
+      // Render generado con IA; video Kling 3.0.
+      video: "assets/demo/amenidades/gym.mp4", poster: "assets/demo/amenidades/gym.jpg", ia: true
     }
   ]
 };

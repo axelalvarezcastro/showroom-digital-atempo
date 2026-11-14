@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <!-- La torre del hero se pide de entrada (antes que GSAP y el config): es lo primero que se ve.
      Mismo archivo que torre.imagen en config.js. -->
-<link rel="preload" as="image" href="assets/atempo/torre-v3.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/demo/torre-v3.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -27,10 +27,11 @@
   .nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(to bottom,rgba(9,9,9,.75),transparent)}
   .nav .brand{display:flex;align-items:center}
   .nav .brand img{height:58px;width:auto}
+  .nav .brand.word{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;line-height:1}
   .nav .links{display:none;gap:1.6rem;font-size:.8rem;color:var(--muted)}
   .nav .links a{color:inherit;text-decoration:none}
   @media(min-width:860px){.nav .links{display:flex}.nav{padding:18px 40px}}
-  @media(max-width:600px){.nav .btn{padding:.6rem .9rem;font-size:.8rem;white-space:nowrap}.nav .brand img{height:42px}}
+  @media(max-width:600px){.nav .btn{padding:.6rem .9rem;font-size:.8rem;white-space:nowrap}.nav .brand img{height:42px}.nav .brand.word{font-size:1.2rem;letter-spacing:.1em}}
 
   /* HERO */
   /* La torre se encuadra por JS (fit): cover en horizontal, torre completa en vertical.
@@ -274,7 +275,7 @@
 </head>
 <body>
 <header class="nav">
-  <a class="brand" href="#" aria-label="Inicio"><picture><source srcset="assets/atempo/atempo-san-angel.webp" type="image/webp"><img id="brandLogo" src="assets/atempo/atempo-san-angel.png" width="348" height="130" alt=""></picture></a>
+  <a class="brand" id="brand" href="#" aria-label="Inicio"></a>
   <nav class="links" id="navLinks"></nav>
   <a class="btn" id="navCta" href="#"></a>
 </header>
@@ -299,7 +300,10 @@
   const S = window.SITE, P = S.proyecto;
   gsap.registerPlugin(ScrollTrigger);
   document.title = P.nombre + " · Preventa";
-  document.getElementById("brandLogo").alt = P.nombre;
+  // Logo: imagen de config.js (proyecto.logo) o, sin logo, el nombre del proyecto en texto.
+  const brand = document.getElementById("brand");
+  if (P.logo) { const img = new Image(); img.src = P.logo; img.alt = P.nombre; brand.appendChild(img); }
+  else { brand.classList.add("word"); brand.textContent = P.nombre; }
   const nc = document.getElementById("navCta"); nc.textContent = P.cta.texto; nc.href = P.cta.url;
   document.getElementById("foot").textContent = P.disclaimer;
   document.getElementById("navLinks").innerHTML = (P.nav || []).map(l => `<a href="${l.href}">${l.texto}</a>`).join("");
@@ -555,7 +559,7 @@
         vTabs = viewer.querySelector(".tabs");
   let vOrigin = { x: innerWidth / 2, y: innerHeight / 2 }, vItems = [], vIdx = 0;
   const amenItems = amenidades.map(m => ({ small: m.nivel, nombre: m.nombre, texto: m.descripcion || "", imagen: m.imagen, video: m.video, poster: m.poster,
-    tag: m.video ? "Render en movimiento · IA" : m.ia ? "Render ilustrativo · IA" : "Render del desarrollador" }));
+    tag: m.video ? "Render en movimiento · IA" : m.ia ? "Render ilustrativo · IA" : "Render ilustrativo" }));
   function showItem(k, first) {
     vIdx = (k + vItems.length) % vItems.length; const m = vItems[vIdx];
     const node = el(m.video ? `<video src="${m.video}" poster="${m.poster || ""}" muted playsinline autoplay loop preload="auto"></video>`
